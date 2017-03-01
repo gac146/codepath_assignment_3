@@ -12,7 +12,7 @@ $country_result = find_country_by_id($id);
 $country = db_fetch_assoc($country_result);
 ?>
 
-<?php $page_title = 'Staff: Country of ' . $country['name']; ?>
+<?php $page_title = 'Staff: Country of ' . h($country['name']); ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="main-content">

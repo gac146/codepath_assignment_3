@@ -10,7 +10,7 @@ $salespeople_result = find_salesperson_by_id($id);
 $salesperson = db_fetch_assoc($salespeople_result);
 ?>
 
-<?php $page_title = 'Staff: Salesperson ' . $salesperson['first_name'] . " " . $salesperson['last_name']; ?>
+<?php $page_title = 'Staff: Salesperson ' . h($salesperson['first_name']) . " " . h($salesperson['last_name']); ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="main-content">

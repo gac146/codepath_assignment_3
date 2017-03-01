@@ -22,13 +22,13 @@ if(is_post_request()) {
 
   $result = update_salesperson($salesperson);
   if($result === true) {
-    redirect_to('show.php?id=' . $salesperson['id']);
+    redirect_to('show.php?id=' . u($salesperson['id']));
   } else {
     $errors = $result;
   }
 }
 ?>
-<?php $page_title = 'Staff: Edit Salesperson ' . $salesperson['first_name'] . " " . $salesperson['last_name']; ?>
+<?php $page_title = 'Staff: Edit Salesperson ' . h($salesperson['first_name']) . " " . h($salesperson['last_name']); ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="main-content">

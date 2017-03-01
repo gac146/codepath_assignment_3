@@ -16,7 +16,7 @@ $country_result = find_country_by_id($country_id);
 $country = db_fetch_assoc($country_result);
 ?>
 
-<?php $page_title = 'Staff: State of ' . $state['name']; ?>
+<?php $page_title = 'Staff: State of ' . u($state['name']); ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="main-content">

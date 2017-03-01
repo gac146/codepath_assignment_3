@@ -16,7 +16,7 @@ if(is_post_request()) {
 }
 
 ?>
-<?php $page_title = 'Staff: Delete User ' . $user['first_name'] . " " . $user['last_name']; ?>
+<?php $page_title = 'Staff: Delete User ' . h($user['first_name']) . " " . h($user['last_name']); ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="main-content">

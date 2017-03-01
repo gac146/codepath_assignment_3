@@ -10,7 +10,7 @@ $users_result = find_user_by_id($id);
 $user = db_fetch_assoc($users_result);
 ?>
 
-<?php $page_title = 'Staff: User ' . $user['first_name'] . " " . $user['last_name']; ?>
+<?php $page_title = 'Staff: User ' . h($user['first_name']) . " " . h($user['last_name']); ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="main-content">

@@ -22,13 +22,13 @@ if(is_post_request()) {
 
   $result = update_user($user);
   if($result === true) {
-    redirect_to('show.php?id=' . $user['id']);
+    redirect_to('show.php?id=' . u($user['id']));
   } else {
     $errors = $result;
   }
 }
 ?>
-<?php $page_title = 'Staff: Edit User ' . $user['first_name'] . " " . $user['last_name']; ?>
+<?php $page_title = 'Staff: Edit User ' . h($user['first_name']) . " " . h($user['last_name']); ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="main-content">

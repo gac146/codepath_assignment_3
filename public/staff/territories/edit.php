@@ -19,13 +19,13 @@ if(is_post_request()) {
 
   $result = update_territory($territory);
   if($result === true) {
-    redirect_to('show.php?id=' . $territory['id']);
+    redirect_to('show.php?id=' . u($territory['id']));
   } else {
     $errors = $result;
   }
 }
 ?>
-<?php $page_title = 'Staff: Edit Territory ' . $territory['name']; ?>
+<?php $page_title = 'Staff: Edit Territory ' . h($territory['name']); ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="main-content">

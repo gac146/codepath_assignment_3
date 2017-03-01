@@ -6,7 +6,7 @@
     // TODO Store user's ID in session
     // TODO Store last login time in session
     $_SESSION['logged_in'] = true;
-    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['user_id'] = h($user['id']);
     $_SESSION['last_login'] = time(); 
 
     session_regenerate_id();

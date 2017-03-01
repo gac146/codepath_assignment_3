@@ -19,13 +19,13 @@ if(is_post_request()) {
 
   $result = update_country($country);
   if($result === true) {
-    redirect_to('show.php?id=' . $country['id']);
+    redirect_to('show.php?id=' . u($country['id']));
   } else {
     $errors = $result;
   }
 }
 ?>
-<?php $page_title = 'Staff: Edit Country ' . $country['name']; ?>
+<?php $page_title = 'Staff: Edit Country ' . h($country['name']); ?>
 <?php include(SHARED_PATH . '/staff_header.php'); ?>
 
 <div id="main-content">
