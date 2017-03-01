@@ -1,6 +1,8 @@
 <?php
 require_once('../../../private/initialize.php');
 
+require_login();
+
 // Set default values for all variables the page needs.
 $errors = array();
 $user = array(
@@ -13,18 +15,24 @@ $user = array(
 
 if(is_post_request()) {
 
+  //confirming that the referer sent in the request
+  if(!request_is_same_domain()) { echo 'Invalid Request'; }
+  //checking if token is valid
+  elseif(!csrf_token_is_valid()) {  echo 'Invalid Request'; }
   // Confirm that values are present before accessing them.
-  if(isset($_POST['first_name'])) { $user['first_name'] = $_POST['first_name']; }
-  if(isset($_POST['last_name'])) { $user['last_name'] = $_POST['last_name']; }
-  if(isset($_POST['username'])) { $user['username'] = $_POST['username']; }
-  if(isset($_POST['email'])) { $user['email'] = $_POST['email']; }
+  else{
+    if(isset($_POST['first_name'])) { $user['first_name'] = $_POST['first_name']; }
+    if(isset($_POST['last_name'])) { $user['last_name'] = $_POST['last_name']; }
+    if(isset($_POST['username'])) { $user['username'] = $_POST['username']; }
+    if(isset($_POST['email'])) { $user['email'] = $_POST['email']; }
 
-  $result = insert_user($user);
-  if($result === true) {
-    $new_id = db_insert_id($db);
-    redirect_to('show.php?id=' . u($new_id));
-  } else {
-    $errors = $result;
+    $result = insert_user($user);
+    if($result === true) {
+      $new_id = db_insert_id($db);
+      redirect_to('show.php?id=' . u($new_id));
+    } else {
+      $errors = $result;
+    }
   }
 }
 ?>
@@ -48,6 +56,7 @@ if(is_post_request()) {
     Email:<br />
     <input type="text" name="email" value="<?php echo h($user['email']); ?>" /><br />
     <br />
+    <?php echo csrf_token_tag(); ?> 
     <input type="submit" name="submit" value="Create"  />
   </form>
 

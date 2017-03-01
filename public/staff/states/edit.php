@@ -1,6 +1,8 @@
 <?php
 require_once('../../../private/initialize.php');
 
+require_login();
+
 if(!isset($_GET['id'])) {
   redirect_to('../index.php');
 }
@@ -14,25 +16,21 @@ $errors = array();
 if(is_post_request()) {
 
    //confirming that the referer sent in the request
-  if(!request_is_same_domain()) { 
-    echo 'Invalid Request';
-    redirect_to('index.php');
-   }
-
-   csrf_token_tag();
-
-   if(!csrf_token_is_valid()) {echo 'Invalid Request'; }
-
+  if(!request_is_same_domain()) { echo 'Invalid Request'; }
+  //checking if token is valid
+  elseif(!csrf_token_is_valid()) {  echo 'Invalid Request'; }
   // Confirm that values are present before accessing them.
-  if(isset($_POST['name'])) { $state['name'] = $_POST['name']; }
-  if(isset($_POST['code'])) { $state['code'] = $_POST['code']; }
-  if(isset($_POST['country_id'])) { $state['country_id'] = $_POST['country_id']; }
+  else{  
+    if(isset($_POST['name'])) { $state['name'] = $_POST['name']; }
+    if(isset($_POST['code'])) { $state['code'] = $_POST['code']; }
+    if(isset($_POST['country_id'])) { $state['country_id'] = $_POST['country_id']; }
 
-  $result = update_state($state);
-  if($result === true) {
-    redirect_to('show.php?id=' . u($state['id']));
-  } else {
-    $errors = $result;
+    $result = update_state($state);
+    if($result === true) {
+      redirect_to('show.php?id=' . u($state['id']));
+    } else {
+      $errors = $result;
+    }
   }
 }
 ?>
@@ -54,6 +52,7 @@ if(is_post_request()) {
     Country ID:<br />
     <input type="text" name="country_id" value="<?php echo h($state['country_id']); ?>" /><br />
     <br />
+    <?php echo csrf_token_tag(); ?> 
     <input type="submit" name="submit" value="Update"  />
   </form>
 

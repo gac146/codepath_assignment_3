@@ -1,6 +1,8 @@
 <?php
 require_once('../../../private/initialize.php');
 
+require_login();
+
 if(!isset($_GET['id'])) {
   redirect_to('../index.php');
 }
@@ -13,15 +15,21 @@ $errors = array();
 
 if(is_post_request()) {
 
+  //confirming that the referer sent in the request
+  if(!request_is_same_domain()) { echo 'Invalid Request'; }
+  //checking if token is valid
+  elseif(!csrf_token_is_valid()) {  echo 'Invalid Request'; }
   // Confirm that values are present before accessing them.
-  if(isset($_POST['name'])) { $territory['name'] = $_POST['name']; }
-  if(isset($_POST['position'])) { $territory['position'] = $_POST['position']; }
+  else{
+    if(isset($_POST['name'])) { $territory['name'] = $_POST['name']; }
+    if(isset($_POST['position'])) { $territory['position'] = $_POST['position']; }
 
-  $result = update_territory($territory);
-  if($result === true) {
-    redirect_to('show.php?id=' . u($territory['id']));
-  } else {
-    $errors = $result;
+    $result = update_territory($territory);
+    if($result === true) {
+      redirect_to('show.php?id=' . u($territory['id']));
+    } else {
+      $errors = $result;
+    }
   }
 }
 ?>
@@ -41,6 +49,7 @@ if(is_post_request()) {
     Position:<br />
     <input type="text" name="position" value="<?php echo h($territory['position']); ?>" /><br />
     <br />
+     <?php echo csrf_token_tag(); ?> 
     <input type="submit" name="submit" value="Update"  />
   </form>
 

@@ -1,6 +1,8 @@
 <?php
 require_once('../../../private/initialize.php');
 
+require_login();
+
 if(!isset($_GET['id'])) {
   redirect_to('../index.php');
 }
@@ -15,26 +17,22 @@ $state = array(
 
 if(is_post_request()) {
 
-  //confirming that the referer sent in the request
-  if(!request_is_same_domain()) { 
-    echo 'Invalid Request';
-    redirect_to('index.php');
-   }
-
-   csrf_token_tag();
-
-   if(!csrf_token_is_valid()) {echo 'Invalid Request'; }
-
+   //confirming that the referer sent in the request
+  if(!request_is_same_domain()) { echo 'Invalid Request'; }
+  //checking if token is valid
+  elseif(!csrf_token_is_valid()) {  echo 'Invalid Request'; }
   // Confirm that values are present before accessing them.
-  if(isset($_POST['name'])) { $state['name'] = $_POST['name']; }
-  if(isset($_POST['code'])) { $state['code'] = $_POST['code']; }
+  else{   
+    if(isset($_POST['name'])) { $state['name'] = $_POST['name']; }
+    if(isset($_POST['code'])) { $state['code'] = $_POST['code']; }
 
-  $result = insert_state($state);
-  if($result === true) {
-    $new_id = db_insert_id($db);
-    redirect_to('show.php?id=' . u($new_id));
-  } else {
-    $errors = $result;
+    $result = insert_state($state);
+    if($result === true) {
+      $new_id = db_insert_id($db);
+      redirect_to('show.php?id=' . u($new_id));
+    } else {
+      $errors = $result;
+    }
   }
 }
 ?>
@@ -54,6 +52,7 @@ if(is_post_request()) {
     Code:<br />
     <input type="text" name="code" value="<?php echo h($state['code']); ?>" /><br />
     <br />
+    <?php echo csrf_token_tag(); ?> 
     <input type="submit" name="submit" value="Create"  />
   </form>
 
