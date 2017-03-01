@@ -3,7 +3,9 @@ require_once('../../../private/initialize.php');
 ?>
 
 <?php $page_title = 'Staff: Users'; ?>
-<?php include(SHARED_PATH . '/staff_header.php'); ?>
+<?php include(SHARED_PATH . '/staff_header.php'); 
+  require_login();
+?>
 
 <div id="main-content">
 

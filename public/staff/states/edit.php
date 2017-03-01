@@ -13,6 +13,16 @@ $errors = array();
 
 if(is_post_request()) {
 
+   //confirming that the referer sent in the request
+  if(!request_is_same_domain()) { 
+    echo 'Invalid Request';
+    redirect_to('index.php');
+   }
+
+   csrf_token_tag();
+
+   if(!csrf_token_is_valid()) {echo 'Invalid Request'; }
+
   // Confirm that values are present before accessing them.
   if(isset($_POST['name'])) { $state['name'] = $_POST['name']; }
   if(isset($_POST['code'])) { $state['code'] = $_POST['code']; }

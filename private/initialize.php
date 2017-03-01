@@ -9,7 +9,7 @@ ob_start();
 session_start([
     'use_only_cookies' => 1,
     'cookie_lifetime' => 0,
-    'cookie_secure' => 1,
+    'cookie_secure' => 0,
     'cookie_httponly' => 1,
     'gc_maxlifetime' => 86400,
     'cookie_lifetime' => 86400

@@ -5,8 +5,10 @@
   function log_in_user($user) {
     // TODO Store user's ID in session
     // TODO Store last login time in session
+    $_SESSION['logged_in'] = true;
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['last_login'] = time(); 
+
     session_regenerate_id();
     return true;
   }
@@ -14,6 +16,8 @@
   // A one-step function to destroy the current session
   function destroy_current_session() {
     // TODO destroy the session file completely
+    session_unset();
+    session_destroy();
   }
 
   // Performs all actions necessary to log out a user
@@ -27,6 +31,8 @@
   // request by comparing it to the user's last login time.
   function last_login_is_recent() {
     // TODO add code to determine if last login is recent
+    $day = 60 * 60 * 24;
+    if( ($_SESSION['last_login'] + $day) < time() ) { return false; }
     return true;
   }
 
@@ -52,8 +58,8 @@
   function is_logged_in() {
     // Having a user_id in the session serves a dual-purpose:
     // - Its presence indicates the user is logged in.
-    // - Its value tells which user for looking up their record.
-    if(!isset($_SESSION['user_id'])) { return false; }
+    // - Its value tells which user for looking up their record. 
+    if(!isset($_SESSION['user_id'])) { return false; }     
     if(!session_is_valid()) { return false; }
     return true;
   }
